@@ -1,0 +1,32 @@
+const FACILITIES = {
+  PARKING: "parking",
+  GARDEN: "garden",
+  COURTYARD: "courtyard",
+  TERRACE: "terrace",
+  SWIMMING_POOL: "swimming pool",
+  SAUNA: "sauna",
+  HOT_TUB: "hot tub",
+  LIBRARY: "library",
+  DINING_HALL: "dining hall",
+  BALLROOM: "ballroom",
+  CHAPEL: "chapel",
+  WINE_CELLAR: "wine cellar",
+  CONFERENCE_ROOM: "conference room",
+  GAME_ROOM: "game room",
+  FITNESS_CENTER: "fitness center",
+  CINEMA_ROOM: "cinema room",
+  STABLES: "stables",
+  HELIPAD: "helipad",
+  LAKE: "lake",
+  FOREST: "forest",
+  WALKING_TRAILS: "walking trails",
+  ROOFTOP_ACCESS: "rooftop access",
+  TOWER_ACCESS: "tower access",
+  CASTLE_WALLS: "castle walls",
+  SECURITY_GATE: "security gate",
+  RECEPTION_DESK: "reception desk",
+  EVENT_SPACE: "event space",
+  OUTDOOR_SEATING_AREA: "outdoor seating area"
+};
+
+export default FACILITIES;
