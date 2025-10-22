@@ -11,7 +11,15 @@ const EVENTS = {
   THEMED_PARTIES: "themed parties",
   VIP_EVENTS: "vip events",
   CASTLE_BALLS: "castle balls",
-  GHOST_HUNTING: "ghost hunting"
+  GHOST_HUNTING: "ghost hunting",
+  MEDIEVAL_FEASTS: "medieval feasts",
+  HISTORICAL_REENACTMENTS: "historical reenactments",
+  NIGHT_TOURS: "torch-lit night tours",
+  WINE_TASTING: "wine tasting events",
+  GARDEN_PARTIES: "garden parties",
+  COSTUME_BALLS: "costume balls",
+  LITERARY_READINGS: "literary readings",
+  THEMED_BANQUETS: "themed banquets",
 };
 
 export default EVENTS;

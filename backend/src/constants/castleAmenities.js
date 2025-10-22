@@ -1,4 +1,6 @@
 const CASTLE_AMENITIES = {
+  GRAND_HALL: "grand hall",
+  CASTLE_LIBRARY: "castle library",
   FREE_PARKING: "free_parking",
   SWIMMING_POOL: "swimming_pool",
   CASTLE_TOUR: "castle_tour",
@@ -6,7 +8,22 @@ const CASTLE_AMENITIES = {
   SPA: "spa",
   GYM: "gym",
   GARDEN: "garden",
-  OUTDOOR_FIREPLACE: "outdoor_fireplace"
+  OUTDOOR_FIREPLACE: "outdoor_fireplace",
+  SECRET_PASSAGES: "secret passages",
+  ARMORY_EXHIBIT: "armory exhibit",
+  OBSERVATION_TOWER: "observation tower",
+  BANQUET_HALL: "banquet hall",
+  WINE_CELLAR: "wine cellar",
+  MEDIEVAL_KITCHEN: "medieval kitchen",
+  FIREPLACE_LOUNGE: "fireplace lounge",
+  PRIVATE_CHAPEL: "private chapel",
+  CASTLE_MUSEUM: "castle museum area",
+  ART_GALLERY: "art gallery",
+  TEA_SALON: "tea salon",
+  STABLES: "horse stables",
+  ARCHERY_RANGE: "archery range",
+  HUNTING_GROUNDS: "hunting grounds",
+  CASTLE_SHOP: "castle gift shop",
 };
 
 export default CASTLE_AMENITIES;
