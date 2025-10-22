@@ -15,7 +15,7 @@ export const verifyToken = (req, res, next) => {
   } catch (err) {
     return res.status(401).json({ message: "Invalid or expired authentication token." });
   }
-}
+};
 
 export const verifyRoles = (...allowesRoles) => {
   return (req, res, next) => {
@@ -27,4 +27,4 @@ export const verifyRoles = (...allowesRoles) => {
     }
 
     next();
-}}
+}};

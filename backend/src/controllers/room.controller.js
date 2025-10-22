@@ -4,9 +4,9 @@ import Castle from "../models/castle.model.js";
 
 // Create a Room
 export const createRoom = async (req, res) => {
-if (!req.body || Object.keys(req.body).length === 0) {
-  return res.status(400).json({ message: "Request body is empty. Please provide all required fields." });
-}
+  if (!req.body || Object.keys(req.body).length === 0) {
+    return res.status(400).json({ message: "Request body is empty. Please provide all required fields." });
+  }
   const { name, capacity, beds, amenities, price } = req.body;
   const { castleId } = req.params;
 

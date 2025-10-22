@@ -6,9 +6,9 @@ import bcrypt from "bcryptjs";
 
 // Create user
 export const register = async (req, res) => {
-if (!req.body || Object.keys(req.body).length === 0) {
-  return res.status(400).json({ message: "Request body is empty. Please provide all required fields." });
-}
+  if (!req.body || Object.keys(req.body).length === 0) {
+    return res.status(400).json({ message: "Request body is empty. Please provide all required fields." });
+  }
   const { firstName, lastName, email, phone, password } = req.body;
 
   // Check if all fields are filled
