@@ -4,9 +4,9 @@ import Booking from "../models/booking.model.js";
 
 // Create a Castle
 export const createCastle = async (req, res, next) => {
-if (!req.body || Object.keys(req.body).length === 0) {
-  return res.status(400).json({ message: "Request body is empty. Please provide all required fields." });
-}
+  if (!req.body || Object.keys(req.body).length === 0) {
+    return res.status(400).json({ message: "Request body is empty. Please provide all required fields." });
+  }
   const { name, description, address, events, images, facilities, amenities, rooms, checkIn, checkOut, cancellationPolicy, houseRules, safetyFeatures } = req.body;
   const owner = req.user._id;
 
@@ -73,7 +73,9 @@ export const updateCastle = async (req,res) => {
     return res.status(404).json({ message: "Castle not found. Please check the castle ID." });
   }
   // Only admin or the same owner can update
-  if (updatedCastle.owner.toString() !== req.user._id && req.user.role !== "admin") {
+  const isAdmin = req.user.role === "admin";
+  const isOwner = updatedCastle.owner._id.toString() === req.user._id.toString();
+  if (!isOwner && !isAdmin) {
     return res.status(403).json({ message: "You do not have permission to update this castle" });
   }
   
@@ -97,7 +99,9 @@ export const deleteCastle = async (req, res) => {
   }
 
   // Only admin or the same owner can delete
-  if (castle.owner.toString() !== req.user._id && req.user.role !== "admin") {
+  const isAdmin = req.user.role === "admin";
+  const isOwner = castle.owner._id.toString() === req.user._id.toString();
+  if (!isOwner && !isAdmin) {
     return res.status(403).json({ message: "You do not have permission to delete this castle." });
   }
   await Castle.findByIdAndDelete(id).exec();
@@ -116,7 +120,8 @@ export const getCastleBookings = async (req, res) => {
   const bookings = await Booking.find({ id });
 
   // Only owner of the castle can get castle bookings
-  if (castle.owner._id.toString() !== req.user._id.toString()) {
+  const isOwner = castle.owner._id.toString() === req.user._id.toString();
+  if (!isOwner) {
     return res.status(403).json({ message: "You are not allowed to see this information." });
   }
 

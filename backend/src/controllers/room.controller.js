@@ -34,7 +34,9 @@ export const createRoom = async (req, res) => {
   }
 
   // Only admin or the same owner can create room
-  if (castle.owner.toString() !== req.user._id && req.user.role !== "admin") {
+  const isOwner = castle.owner._id.toString() === req.user._id.toString();
+  const isAdmin = req.user.role === "admin";
+  if (!isOwner && !isAdmin) {
     return res.status(403).json({ message: "You do not have permission to create this room." });
   }
 
@@ -116,7 +118,9 @@ export const updateRoom = async (req, res) => {
   }
 
   // Only admin or the same owner can update room
-  if (castle.owner.toString() !== req.user._id && req.user.role !== "admin") {
+  const isOwner = castle.owner._id.toString() === req.user._id.toStringg();
+  const isAdmin = req.user.role !== "admin";
+  if (!isOwner && !isAdmin) {
     return res.status(403).json({ message: "You do not have permission to create this room." });
   }
 
@@ -143,7 +147,9 @@ export const deleteRoom = async (req, res) => {
   }
 
   // Only admin or the same owner can delete room
-  if (castle.owner.toString() !== req.user._id && req.user.role !== "admin") {
+  const isAdmin = req.user.role === "admin";
+  const isOwner = castle.owner._id.toString() === req.user._id.toString();
+  if (!isOwner && !isAdmin) {
     return res.status(403).json({ message: "You do not have permission to delete this room." });
   }
 

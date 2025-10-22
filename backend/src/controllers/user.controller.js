@@ -113,7 +113,7 @@ export const getAllUsers = async (req, res) => {
   res.status(200).json(users);
 };
 
-// Profile
+// Profile by the same user
 export const getUserProfile = async (req, res) => {
   // Find user
   const user = await User.findById(req.user._id, "-password").exec();
@@ -158,7 +158,9 @@ export const updateUser = async (req,res) => {
   }
 
   // Only admin or the same user can update
-  if (updatedUser._id.toString() !== req.user._id && req.user.role !== "admin") {
+  const isUser = updatedUser._id.toString() === req.user._id.toString();
+  const isAdmin = req.user.role === "admin";
+  if (!isUser && !isAdmin) {
     return res.status(403).json({ message: "You do not have permission to update this user." });
   }
   
@@ -181,7 +183,9 @@ export const deleteUser = async (req, res) => {
   }
 
   // Only admin or the same user can delete
-  if (user._id.toString() !== req.user._id && req.user.role !== "admin") {
+  const isUser = user._id.toString() === req.user._id.toString();
+  const isAdmin = req.user.role === "admin";
+  if (!isUser && !isAdmin) {
     return res.status(403).json({ message: "You do not have permission to delete this user." });
   }
 

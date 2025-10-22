@@ -99,8 +99,11 @@ export const getBookingById = async (req, res) => {
   if (!castle) {
     return res.status(404).json({ message: "Castle not found. Please check the castle ID." });
   }
+  const isBookingCreator = booking.userId.toString() === req.user._id.toString();
+  const isAdmin = req.user.role === "admin";
+  const isOwner = castle.owner._id.toString() === req.user._id.toString();
   // User's booking
-  if (booking.userId.toString() !== req.user._id.toString() && req.user.role !== "admin" && castle.owner._id.toString() !== req.user._id.toString()) {
+  if (!isBookingCreator && !isAdmin && !isOwner) {
     return res.status(403).json({ message: "You do not have permission to access this booking." });
   }
   
@@ -167,7 +170,10 @@ export const updateBooking = async (req,res) => {
   }
 
   // Only admin, the owner of the castle or the booking creator can update
-  if (booking.userId.toString() !== req.user._id && req.user.role !== "admin" && castle.owner._id !== req.user._id) {
+  const isBookingCreator = booking.userId.toString() === req.user._id.toString();
+  const isAdmin = req.user.role === "admin";
+  const isOwner = castle.owner._id.toString() === req.user._id.toString();
+  if (!isBookingCreator && !isAdmin && !isOwner) {
     return res.status(403).json({ message: "You do not have permission to create this room." });
   }
 
@@ -195,7 +201,10 @@ export const deleteBooking = async (req, res) => {
   }
 
   // Only admin or the same owner can delete booking
-  if (castle.owner.toString() !== req.user._id && req.user.role !== "admin" && booking.userId !== req.user._id) {
+  const isBookingCreator = booking.userId.toString() === req.user._id.toString();
+  const isAdmin = req.user.role === "admin";
+  const isOwner = castle.owner._id.toString() === req.user._id.toString();
+  if (!isBookingCreator && !isAdmin && !isOwner) {
     return res.status(403).json({ message: "You do not have permission to delete this booking." });
   }
 
