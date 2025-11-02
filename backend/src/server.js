@@ -17,7 +17,7 @@ const dbConnect = async () => {
 const startServer = async () => {
   try {
     await dbConnect()
-    app.listen(PORT, () => console.log(`Server is running on https://localhost:${PORT}`));
+    app.listen(PORT, () => console.log(`Server is running on http://localhost:${PORT}`));
   } catch (err) {
     console.log(`Failed to start the server: ${err.message}`);
     process.exit(1)

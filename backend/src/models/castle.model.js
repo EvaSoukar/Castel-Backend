@@ -9,7 +9,7 @@ const castleSchema = new mongoose.Schema({
   owner: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
   address: { type: String, required: true },
   events: { type: [String], enum: Object.values(EVENTS)},
-  images : { type: [String], required: true },
+  images : [{ name: { type: String, required: true }, url: { type: String, required: true } }],
   facilities: { type: [String], enum: Object.values(FACILITIES)},
   amenities: { type: [String], enum: Object.values(CASTLE_AMENITIES)},
   rooms: [{ type: mongoose.Schema.Types.ObjectId, ref: "Room", required: true }],

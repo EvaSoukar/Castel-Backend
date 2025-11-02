@@ -1,4 +1,5 @@
 import express from "express";
+import cors from "cors";
 import castleRoutes from "./routes/castle.route.js";
 import roomRoutes from "./routes/room.route.js";
 import bookingRoutes from "./routes/booking.route.js";
@@ -6,6 +7,11 @@ import userRoutes from "./routes/user.route.js";
 import { errorHandler, notFound } from "./middleware/error.middleware.js";
 
 const app = express();
+
+app.use(cors({
+  origin: "http://localhost:5173",
+  credentials: true
+}));
 
 // Middleware to parse URL-encoded data (Form data)
 app.use(express.urlencoded({ extended: false }));
