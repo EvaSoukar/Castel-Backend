@@ -1,17 +1,18 @@
 import mongoose from "mongoose";
 import Castle from "../models/castle.model.js";
 import Booking from "../models/booking.model.js";
+import Room from "../models/room.model.js";
 
 // Create a Castle
 export const createCastle = async (req, res, next) => {
   if (!req.body || Object.keys(req.body).length === 0) {
     return res.status(400).json({ message: "Request body is empty. Please provide all required fields." });
   }
-  const { name, description, address, events, images, facilities, amenities, rooms, checkIn, checkOut, cancellationPolicy, houseRules, safetyFeatures } = req.body;
+  const { name, description, address, country, events, images, facilities, amenities, rooms, checkIn, checkOut, cancellationPolicy, houseRules, safetyFeatures } = req.body;
   const owner = req.user._id;
 
   // Check if all fields are filled
-  const requiredFields = { name, description, owner, address, images, checkIn, checkOut };
+  const requiredFields = { name, description, owner, address, country, images, checkIn, checkOut };
   for (const [key, value] of Object.entries(requiredFields)) {
     if (!value) {
       return res.status(400).json({ message: `Please provide all required fields: ${key} field is required.` });
@@ -19,7 +20,14 @@ export const createCastle = async (req, res, next) => {
   };
 
   // Create castle
-  const castle = await Castle.create({ name, description, owner, address, events, images, facilities, amenities, rooms, checkIn, checkOut, cancellationPolicy, houseRules, safetyFeatures });
+  const castle = await Castle.create({ name, description, owner, address, country, events, images, facilities, amenities, rooms: [], checkIn, checkOut, cancellationPolicy, houseRules, safetyFeatures, totalPrice: 0 });
+  const createdRooms = await Room.create(
+    rooms.map(room => ({ ...room, castleId: castle._id }))
+  )
+  const totalPrice = rooms.reduce((sum, room) => sum + (room.price || 0), 0);
+  castle.rooms = createdRooms.map(room => room._id);
+  castle.price = totalPrice;
+  await castle.save();
   
   // Return response
   res.status(201).json(castle);
@@ -49,9 +57,8 @@ export const getCastleById = async (req, res) => {
 //Update
 export const updateCastle = async (req,res) => {
   const { id } = req.params;
-
   // Allowed fields to be updated
-  const fieldsToUpdate = ["name", "description", "address", "events", "images", "facilities", "amenities", "rooms", "checkIn", "checkOut", "cancellationPolicy", "houseRules", "safetyFeatures"];
+  const fieldsToUpdate = ["name", "description", "address", "country", "events", "images", "facilities", "amenities", "checkIn", "checkOut", "cancellationPolicy", "houseRules", "safetyFeatures"];
   const toUpdate = {};
 
   // Populate the changes

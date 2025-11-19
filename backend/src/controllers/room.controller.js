@@ -9,9 +9,8 @@ export const createRoom = async (req, res) => {
   }
   const { name, capacity, beds, amenities, price } = req.body;
   const { castleId } = req.params;
-
   // Check if all fields are filled
-  const requiredFields = { name, capacity, beds, price };
+  const requiredFields = { name, capacity, price };
   for (const [key, value] of Object.entries(requiredFields)) {
     if (!value) {
       return res.status(400).json({ message: `Please provide all required fields: '${key}' field is required.` });
@@ -59,6 +58,7 @@ export const getAllRooms = async (req, res) => {
 
   // Get all rooms
   const rooms = await Room.find({ castleId });
+
   res.status(200).json(rooms);
 };
 

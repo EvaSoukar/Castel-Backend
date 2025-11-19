@@ -11,7 +11,6 @@ export const createBooking = async (req, res) => {
   const { checkInDate, checkOutDate, guests } = req.body;
   const userId = req.user._id;
   const { castleId, roomId } = req.params;
-
   // Check if all fields are filled
   const requiredFields = { checkInDate, checkOutDate, guests };
   for (const [key, value] of Object.entries(requiredFields)) {
