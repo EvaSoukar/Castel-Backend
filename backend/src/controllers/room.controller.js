@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import Room from "../models/room.model.js";
 import Castle from "../models/castle.model.js";
+import Booking from "../models/booking.model.js";
 
 // Create a Room
 export const createRoom = async (req, res) => {
@@ -161,4 +162,30 @@ export const deleteRoom = async (req, res) => {
   }
 
   res.status(200).json({ message: "The room has been deleted successfully." });
+};
+
+// Get Available Rooms by Date
+export const getAvailableRooms = async (req, res) => {
+  const { castleId } = req.params;
+  const { checkInDate, checkOutDate, guests } = req.query;
+
+  // Build room query for capacity
+  const roomQuery = { castleId };
+  if (guests) {
+    roomQuery.capacity = { $gte: Number(guests) };
+  }
+  // Find all rooms in the castle with enough capacity
+  let rooms = await Room.find(roomQuery);
+
+  // If valid dates are provided, filter by availability
+  if (checkInDate && checkOutDate && !isNaN(Date.parse(checkInDate)) && !isNaN(Date.parse(checkOutDate))) {
+    const bookedRoomIds = await Booking.find({
+      castleId,
+      checkInDate: { $lt: new Date(checkOutDate) },
+      checkOutDate: { $gt: new Date(checkInDate) }
+    }).distinct("roomId");
+    rooms = rooms.filter(room => !bookedRoomIds.includes(room._id.toString()));
+  }
+
+  res.status(200).json(rooms);
 };

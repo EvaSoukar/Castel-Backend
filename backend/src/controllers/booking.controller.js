@@ -109,6 +109,21 @@ export const getBookingById = async (req, res) => {
   res.status(200).json(booking);
 };
 
+export const getBookingsByUserId = async (req, res) => {
+  const userId = req.params.userId || req.user._id;
+
+  if (!mongoose.Types.ObjectId.isValid(userId)) {
+    return res.status(400).json({ message: "The provided user ID is not valid." });
+  }
+
+  try {
+    const bookings = await Booking.find({ userId }).exec();
+    res.status(200).json(bookings);
+  } catch (error) {
+    res.status(500).json({ message: "Server error." });
+  }
+};
+
 // Update Booking
 export const updateBooking = async (req,res) => {
   const { bookingId } = req.params;
