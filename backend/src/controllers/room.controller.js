@@ -176,7 +176,7 @@ export const getAvailableRooms = async (req, res) => {
   }
   // Find all rooms in the castle with enough capacity
   let rooms = await Room.find(roomQuery);
-
+  
   // If valid dates are provided, filter by availability
   if (checkInDate && checkOutDate && !isNaN(Date.parse(checkInDate)) && !isNaN(Date.parse(checkOutDate))) {
     const bookedRoomIds = await Booking.find({
@@ -184,8 +184,10 @@ export const getAvailableRooms = async (req, res) => {
       checkInDate: { $lt: new Date(checkOutDate) },
       checkOutDate: { $gt: new Date(checkInDate) }
     }).distinct("roomId");
-    rooms = rooms.filter(room => !bookedRoomIds.includes(room._id.toString()));
+    const bookedIdsStrings = bookedRoomIds.map(idObj => idObj.toHexString());
+    rooms = rooms.filter(room => !bookedIdsStrings.includes(room._id.toString()));
   }
+
 
   res.status(200).json(rooms);
 };
