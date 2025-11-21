@@ -9,7 +9,7 @@ export const register = async (req, res) => {
   if (!req.body || Object.keys(req.body).length === 0) {
     return res.status(400).json({ message: "Request body is empty. Please provide all required fields." });
   }
-  const { firstName, lastName, email, phone, password } = req.body;
+  const { firstName, lastName, email, phone, password, role, image } = req.body;
 
   // Check if all fields are filled
   const requiredFields =  { firstName, lastName, email, phone, password };
@@ -31,8 +31,12 @@ export const register = async (req, res) => {
   const salt = await bcrypt.genSalt(10);
   const hash = await bcrypt.hash(password, salt);
 
+  // Use ROLES for allowed roles
+  const allowedRoles = Object.values(ROLES);
+  const userRole = allowedRoles.includes(role) ? role : ROLES.GUEST;
+
   // Create new user
-  const user = await User.create({ firstName, lastName, email: normalizedEmail, phone, password: hash });
+  const user = await User.create({ firstName, lastName, email: normalizedEmail, phone, password: hash, role: userRole, image });
 
   // Generate token
   const token = generateToken(user);
